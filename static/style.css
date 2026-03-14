@@ -1,0 +1,48 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #2b99c9;
+}
+
+.container {
+    text-align: center;
+    margin-top: 100px;
+}
+
+input {
+    padding: 10px;
+    width: 400px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.result {
+    margin: 20px auto;
+    width: 60%;
+    text-align: left;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.result h3 {
+    margin-top: 0;
+}
+
+.result ul {
+    padding-left: 20px;
+}

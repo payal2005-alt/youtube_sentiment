@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YouTube Sentiment Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+ 
+    <h1>YouTube Sentiment Analyzer</h1>
+
+    <form method="POST">
+        <input 
+            type="text" 
+            name="youtube_url" 
+            placeholder="Paste YouTube URL here"
+            required
+        >
+        <button type="submit">Analyze</button>
+    </form>
+
+    <!-- ERROR MESSAGE -->
+    {% if error %}
+        <div class="result">
+            <p style="color:red;">{{ error }}</p>
+        </div>
+    {% endif %}
+
+    <!-- SENTIMENT SUMMARY -->
+    {% if summary %}
+        <div class="result">
+            <h3>Sentiment Summary</h3>
+            <p>Total Comments Analyzed: {{ summary.total }}</p>
+            <p>Positive: {{ summary.positive }}</p>
+            <p>Negative: {{ summary.negative }}</p>
+            <p>Neutral: {{ summary.neutral }}</p>
+        </div>
+    {% endif %}
+
+    <!-- COMMENTS LIST -->
+    {% if comments %}
+        <div class="result">
+
+            <h3>Comments</h3>
+
+            <p><strong>Total fetched comments: {{ comments|length }}</strong></p>
+
+            <ul>
+                {% for comment in comments %}
+                    <li>{{ comment }}</li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
