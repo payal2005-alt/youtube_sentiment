@@ -1,23 +1,28 @@
 from textblob import TextBlob
 
-def analyze_comments(comments):
-    positive = 0
-    negative = 0
-    neutral = 0
+
+def analyze_sentiment(comments: list[str]) -> tuple[float, float, float]:
+    if not comments:
+        return 0.0, 0.0, 0.0
+
+    positive_count = 0
+    neutral_count = 0
+    negative_count = 0
 
     for comment in comments:
         polarity = TextBlob(comment).sentiment.polarity
 
         if polarity > 0:
-            positive += 1
+            positive_count += 1
         elif polarity < 0:
-            negative += 1
+            negative_count += 1
         else:
-            neutral += 1
+            neutral_count += 1
 
-    return {
-        "total": len(comments),
-        "positive": positive,
-        "negative": negative,
-        "neutral": neutral
-    }
+    total = len(comments)
+
+    positive = round((positive_count / total) * 100, 2)
+    neutral = round((neutral_count / total) * 100, 2)
+    negative = round((negative_count / total) * 100, 2)
+
+    return positive, neutral, negative

@@ -1,51 +1,71 @@
-from urllib.parse import urlparse, parse_qs
+import re
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+
+API_KEY = "AIzaSyB4UCcyS90gmwnmJo76DTtZ0uw1pMkeyYs"
 
 
-def extract_video_id(url):
-    parsed_url = urlparse(url)
+def get_video_id(url: str) -> str | None:
+    patterns = [
+        r"(?:v=)([0-9A-Za-z_-]{11})",
+        r"(?:youtu\.be/)([0-9A-Za-z_-]{11})",
+        r"(?:shorts/)([0-9A-Za-z_-]{11})",
+        r"(?:embed/)([0-9A-Za-z_-]{11})",
+    ]
 
-    if parsed_url.hostname == "youtu.be":
-        return parsed_url.path[1:]
-
-    if parsed_url.hostname in ("www.youtube.com", "youtube.com"):
-        if parsed_url.path == "/watch":
-            query = parse_qs(parsed_url.query)
-            return query.get("v", [None])[0]
-
-        if parsed_url.path.startswith("/shorts/"):
-            parts = parsed_url.path.split("/")
-            if len(parts) > 2:
-                return parts[2]
+    for pattern in patterns:
+        match = re.search(pattern, url)
+        if match:
+            return match.group(1)
 
     return None
 
 
-def get_comments(video_id, api_key, max_comments=500):
-    youtube = build("youtube", "v3", developerKey=api_key)
+def fetch_comments(video_url: str, max_comments: int = 500) -> list[str]:
+    video_id = get_video_id(video_url)
+    if not video_id:
+        raise ValueError("Invalid YouTube URL. Please enter a valid video link.")
+
+    if API_KEY == "PASTE_YOUR_NEW_API_KEY_HERE":
+        raise ValueError("Please add your YouTube API key in youtube_utils.py")
+
+    youtube = build("youtube", "v3", developerKey=API_KEY)
 
     comments = []
     next_page_token = None
 
-    while len(comments) < max_comments:
-        request = youtube.commentThreads().list(
-            part="snippet",
-            videoId=video_id,
-            maxResults=min(100, max_comments - len(comments)),
-            pageToken=next_page_token,
-            textFormat="plainText"
-        )
+    try:
+        while len(comments) < max_comments:
+            request = youtube.commentThreads().list(
+                part="snippet",
+                videoId=video_id,
+                maxResults=min(100, max_comments - len(comments)),
+                pageToken=next_page_token,
+                textFormat="plainText",
+                order="relevance"
+            )
 
-        response = request.execute()
+            response = request.execute()
+            items = response.get("items", [])
 
-        items = response.get("items", [])
-        for item in items:
-            comment = item["snippet"]["topLevelComment"]["snippet"]["textDisplay"]
-            comments.append(comment)
+            if not items:
+                break
 
-        next_page_token = response.get("nextPageToken")
+            for item in items:
+                snippet = item["snippet"]["topLevelComment"]["snippet"]
+                text = snippet.get("textDisplay", "").strip()
 
-        if not next_page_token:
-            break
+                if text:
+                    comments.append(text)
+
+                if len(comments) >= max_comments:
+                    break
+
+            next_page_token = response.get("nextPageToken")
+            if not next_page_token:
+                break
+
+    except HttpError as e:
+        raise ValueError(f"YouTube API error: {e}")
 
     return comments

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="results-page">
+
+        <div class="results-card">
+            <h1>Sentiment Results</h1>
+            <h2>Total Comments Analyzed: {{ total_comments }}</h2>
+
+            <div class="sentiment-block">
+                <div class="sentiment-label">
+                    <span><strong>Positive:</strong> {{ positive_count }} comments</span>
+                    <span>{{ positive_percent }}%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill positive" style="width: {{ positive_percent }}%;"></div>
+                </div>
+            </div>
+
+            <div class="sentiment-block">
+                <div class="sentiment-label">
+                    <span><strong>Neutral:</strong> {{ neutral_count }} comments</span>
+                    <span>{{ neutral_percent }}%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill neutral" style="width: {{ neutral_percent }}%;"></div>
+                </div>
+            </div>
+
+            <div class="sentiment-block">
+                <div class="sentiment-label">
+                    <span><strong>Negative:</strong> {{ negative_count }} comments</span>
+                    <span>{{ negative_percent }}%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill negative" style="width: {{ negative_percent }}%;"></div>
+                </div>
+            </div>
+
+            <a href="/" class="back-btn">← Analyze Another Video</a>
+        </div>
+
+        <div class="comments-card">
+            <h2>Fetched Comments</h2>
+
+            {% for comment in analyzed_comments %}
+            <div class="comment-box">
+                <div class="comment-header">
+                    <strong>Comment {{ loop.index }}</strong>
+                    <span class="comment-sentiment
+                        {% if comment.sentiment == 'Positive' %}positive-text
+                        {% elif comment.sentiment == 'Negative' %}negative-text
+                        {% else %}neutral-text
+                        {% endif %}">
+                        {{ comment.sentiment }}
+                    </span>
+                </div>
+                <p>{{ comment.text }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</body>
+</html>
