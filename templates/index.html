@@ -6,27 +6,116 @@
     <title>YouTube Sentiment Analyzer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-    <div class="home-container">
-        <div class="home-card">
-            <h1>YouTube Sentiment Analyzer</h1>
+<body class="landing-page">
 
-            <form method="POST" class="analyze-form">
-                <input 
-                    type="text" 
-                    name="youtube_url" 
-                    placeholder="Paste YouTube URL here" 
-                    required
-                >
-                <button type="submit">Analyze</button>
-            </form>
+    <div class="bg-scene">
+        <div class="left-outline-circle"></div>
+        <div class="left-rect"></div>
 
-            {% if error %}
-                <div class="error-box">
-                    {{ error }}
-                </div>
-            {% endif %}
+        <div class="center-rect"></div>
+        <div class="center-rect-small"></div>
+
+        <div class="right-pill pill-1"></div>
+        <div class="right-pill pill-2"></div>
+        <div class="right-pill pill-3"></div>
+
+        <div class="mid-glow glow-1"></div>
+        <div class="mid-glow glow-2"></div>
+
+        <div class="arc-wrap">
+            <div class="sentiment-arc"></div>
+            <div class="arc-hole"></div>
+
+            <div class="emoji-face face-1">😟</div>
+            <div class="emoji-face face-2">😐</div>
+            <div class="emoji-face face-3">🙂</div>
+            <div class="emoji-face face-4">😆</div>
         </div>
     </div>
+
+    <div class="landing-container">
+        <div class="hero-box">
+            <h1>YouTube Sentiment Analyzer</h1>
+            <form action="/analyze" method="POST" class="hero-form">
+                <input type="text" name="youtube_url" placeholder="Paste YouTube URL here" required>
+                <button type="submit">Analyze</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- full width bottom bubbles -->
+    <div class="bubble-area">
+        <div class="bubble-row row-1">
+            <div class="social-icon pinterest">P</div>
+            <div class="social-icon whatsapp">W</div>
+            <div class="social-icon facebook">f</div>
+            <div class="social-icon youtube">▶</div>
+            <div class="social-icon instagram">◎</div>
+            <div class="social-icon twitter">t</div>
+            <div class="social-icon tiktok">♪</div>
+            <div class="social-icon snapchat">S</div>
+            <div class="social-icon pinterest">P</div>
+            <div class="social-icon facebook">f</div>
+            <div class="social-icon youtube">▶</div>
+            <div class="social-icon whatsapp">W</div>
+            <div class="social-icon instagram">◎</div>
+            <div class="social-icon twitter">t</div>
+            <div class="social-icon tiktok">♪</div>
+            <div class="social-icon snapchat">S</div>
+            <div class="social-icon pinterest">P</div>
+            <div class="social-icon facebook">f</div>
+            <div class="social-icon youtube">▶</div>
+            <div class="social-icon whatsapp">W</div>
+            <div class="social-icon instagram">◎</div>
+            <div class="social-icon twitter">t</div>
+        </div>
+
+        <div class="bubble-row row-2">
+            <div class="social-icon snapchat">S</div>
+            <div class="social-icon pinterest">P</div>
+            <div class="social-icon facebook">f</div>
+            <div class="social-icon whatsapp">W</div>
+            <div class="social-icon tiktok">♪</div>
+            <div class="social-icon instagram">◎</div>
+            <div class="social-icon twitter">t</div>
+            <div class="social-icon facebook">f</div>
+            <div class="social-icon youtube">▶</div>
+            <div class="social-icon whatsapp">W</div>
+            <div class="social-icon tiktok">♪</div>
+            <div class="social-icon facebook">f</div>
+            <div class="social-icon pinterest">P</div>
+            <div class="social-icon instagram">◎</div>
+            <div class="social-icon youtube">▶</div>
+            <div class="social-icon whatsapp">W</div>
+            <div class="social-icon snapchat">S</div>
+            <div class="social-icon pinterest">P</div>
+            <div class="social-icon twitter">t</div>
+            <div class="social-icon facebook">f</div>
+            <div class="social-icon youtube">▶</div>
+        </div>
+
+        <div class="bubble-row row-3">
+            <div class="social-icon pinterest">P</div>
+            <div class="social-icon facebook">f</div>
+            <div class="social-icon snapchat">S</div>
+            <div class="social-icon pinterest">P</div>
+            <div class="social-icon facebook">f</div>
+            <div class="social-icon whatsapp">W</div>
+            <div class="social-icon tiktok">♪</div>
+            <div class="social-icon instagram">◎</div>
+            <div class="social-icon twitter">t</div>
+            <div class="social-icon facebook">f</div>
+            <div class="social-icon youtube">▶</div>
+            <div class="social-icon whatsapp">W</div>
+            <div class="social-icon tiktok">♪</div>
+            <div class="social-icon instagram">◎</div>
+            <div class="social-icon twitter">t</div>
+            <div class="social-icon facebook">f</div>
+            <div class="social-icon pinterest">P</div>
+            <div class="social-icon snapchat">S</div>
+            <div class="social-icon whatsapp">W</div>
+        </div>
+    </div>
+
 </body>
 </html>

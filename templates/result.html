@@ -6,40 +6,38 @@
     <title>Sentiment Results</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-    <div class="results-page">
+<body class="result-page">
 
-        <div class="results-card">
+    <div class="result-wrapper">
+        <div class="summary-card">
             <h1>Sentiment Results</h1>
+
             <h2>Total Comments Analyzed: {{ total_comments }}</h2>
 
-            <div class="sentiment-block">
-                <div class="sentiment-label">
-                    <span><strong>Positive:</strong> {{ positive_count }} comments</span>
-                    <span>{{ positive_percent }}%</span>
-                </div>
+            <div class="stats-lines">
+                <p><strong>Positive:</strong> {{ positive_count }} ({{ positive_percentage }}%)</p>
+                <p><strong>Neutral:</strong> {{ neutral_count }} ({{ neutral_percentage }}%)</p>
+                <p><strong>Negative:</strong> {{ negative_count }} ({{ negative_percentage }}%)</p>
+            </div>
+
+            <div class="progress-group">
+                <label>Positive {{ positive_percentage }}%</label>
                 <div class="progress-bar">
-                    <div class="progress-fill positive" style="width: {{ positive_percent }}%;"></div>
+                    <div class="progress-fill positive-fill" style="width: {{ positive_percentage }}%;"></div>
                 </div>
             </div>
 
-            <div class="sentiment-block">
-                <div class="sentiment-label">
-                    <span><strong>Neutral:</strong> {{ neutral_count }} comments</span>
-                    <span>{{ neutral_percent }}%</span>
-                </div>
+            <div class="progress-group">
+                <label>Neutral {{ neutral_percentage }}%</label>
                 <div class="progress-bar">
-                    <div class="progress-fill neutral" style="width: {{ neutral_percent }}%;"></div>
+                    <div class="progress-fill neutral-fill" style="width: {{ neutral_percentage }}%;"></div>
                 </div>
             </div>
 
-            <div class="sentiment-block">
-                <div class="sentiment-label">
-                    <span><strong>Negative:</strong> {{ negative_count }} comments</span>
-                    <span>{{ negative_percent }}%</span>
-                </div>
+            <div class="progress-group">
+                <label>Negative {{ negative_percentage }}%</label>
                 <div class="progress-bar">
-                    <div class="progress-fill negative" style="width: {{ negative_percent }}%;"></div>
+                    <div class="progress-fill negative-fill" style="width: {{ negative_percentage }}%;"></div>
                 </div>
             </div>
 
@@ -49,23 +47,25 @@
         <div class="comments-card">
             <h2>Fetched Comments</h2>
 
-            {% for comment in analyzed_comments %}
-            <div class="comment-box">
-                <div class="comment-header">
-                    <strong>Comment {{ loop.index }}</strong>
-                    <span class="comment-sentiment
-                        {% if comment.sentiment == 'Positive' %}positive-text
-                        {% elif comment.sentiment == 'Negative' %}negative-text
-                        {% else %}neutral-text
-                        {% endif %}">
-                        {{ comment.sentiment }}
-                    </span>
+            {% for item in analyzed_comments %}
+            <div class="modern-comment-box">
+                <div class="comment-top-row">
+                    <div class="comment-title">Comment {{ loop.index }}</div>
+
+                    {% if item.sentiment == "Positive" %}
+                        <div class="comment-sentiment positive-text">Positive</div>
+                    {% elif item.sentiment == "Negative" %}
+                        <div class="comment-sentiment negative-text">Negative</div>
+                    {% else %}
+                        <div class="comment-sentiment neutral-text">Neutral</div>
+                    {% endif %}
                 </div>
-                <p>{{ comment.text }}</p>
+
+                <div class="comment-text">{{ item.text }}</div>
             </div>
             {% endfor %}
         </div>
-
     </div>
+
 </body>
 </html>
